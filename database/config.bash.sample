@@ -1,0 +1,3 @@
+DB_NAME=student_administration_framework;
+DB_USER=studadmin_user;
+DB_PWD=studadmin_user_01234;
