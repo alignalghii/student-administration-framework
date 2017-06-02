@@ -12,6 +12,8 @@ if . config.bash;
 								mysql <<EOT;;
 								CREATE DATABASE \`$DB_NAME\`;
 								CREATE USER '$DB_USER' IDENTIFIED BY '$DB_PWD';
+								GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER';
+								FLUSH PRIVILEGES;
 EOT
 							drop)
 								mysql <<EOT;;
@@ -47,4 +49,5 @@ EOT
 		fi;
 	else
 		echo 'Config file not found, copy `config.bash.sample` to `config.bash`, and fill in assignments with values';
+		echo 'Even better, if You use the standard configuration process: run ../configure.bash, and follow the advices, if any';
 fi;
