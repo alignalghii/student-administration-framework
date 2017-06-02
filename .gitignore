@@ -1,1 +1,3 @@
+config.sed
 database/config.bash
+app/Config.php

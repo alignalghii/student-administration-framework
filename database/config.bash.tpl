@@ -1,0 +1,3 @@
+DB_NAME={{{DB_NAME}}};
+DB_USER={{{DB_USER}}};
+DB_PWD={{{DB_PWD}}};
