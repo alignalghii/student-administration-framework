@@ -1,5 +1,8 @@
 <?php
 
+/** @todo: put DEBUG value into config data */
+const DEBUG = true;
+
 $routes = [
 	['GET', '/',                 'DefaultController', 'index'],
 	['GET', '/student',          'StudentController', 'index'],
@@ -18,26 +21,36 @@ class StudentController
 }
 
 
-$uri    = $_SERVER['REQUEST_URI'];
-$method = $_SERVER['REQUEST_METHOD'];
+set_error_handler('report', E_WARNING);
 
-$found = false;
-foreach ($routes as $route) {
-	if (!$found) {
-		list($routeMethod, $uriPattern, $controller, $action) = $route;
-		if ($method == $routeMethod) {
-			$uriPattern = "!^$uriPattern$!";
-			$matched = preg_match($uriPattern, $uri, $match);
-			if ($matched) {
-				array_shift($match);
-				call_user_func_array([new $controller, $action], $match);
-				$found = true;
+	$uri    = $_SERVER['REQUEST_URI'];
+	$method = $_SERVER['REQUEST_METHOD'];
+
+	$found = false;
+	foreach ($routes as $route) {
+		if (!$found) {
+			list($routeMethod, $uriPattern, $controller, $action) = $route;
+			if ($method == $routeMethod) {
+				$uriPattern = "!^$uriPattern$!";
+				$matched = preg_match($uriPattern, $uri, $match);
+				if ($matched) {
+					array_shift($match);
+					call_user_func_array([new $controller, $action], $match);
+					$found = true;
+				}
 			}
+		} else {
+			break;
 		}
-	} else {
-		break;
 	}
-}
-if (!$found) {
-	echo "No matchable route pattern found for `$method $uri`";
+	if (!$found) {
+		echo "No matchable route pattern found for `$method $uri`";
+	}
+
+restore_error_handler();
+
+function report($errno, $errstr)
+{
+	echo "Internal error, please report!";
+	if (DEBUG) echo " Code: $errno, message: $errstr";
 }
