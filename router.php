@@ -1,5 +1,7 @@
 <?php
 
+require 'autoload.php';
+
 /** @todo: put DEBUG value into config data */
 const DEBUG = true;
 
@@ -8,18 +10,6 @@ $routes = [
 	['GET', '/student',          'StudentController', 'index'],
 	['GET', '/student/([0-9]+)', 'StudentController', 'show' ]
 ];
-
-class DefaultController
-{
-	public function index() {echo 'Root';}
-}
-
-class StudentController
-{
-	public function index()   {echo 'List all users';}
-	public function show($id) {echo "Show student #$id";}
-}
-
 
 set_error_handler('report', E_WARNING);
 
