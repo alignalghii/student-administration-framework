@@ -3,4 +3,14 @@ Connection: close
 X-Powered-By: PHP/7.0.15-0ubuntu0.16.04.4
 Content-type: text/html; charset=UTF-8
 
-List all users
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>List of all students &bullet; Student application framework</title>
+	</head>
+	<body>
+		<h1>List of all students</h1>
+		<p>Listing here...</p>
+	</body>
+</html>

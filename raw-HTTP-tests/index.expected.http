@@ -3,4 +3,14 @@ Connection: close
 X-Powered-By: PHP/7.0.15-0ubuntu0.16.04.4
 Content-type: text/html; charset=UTF-8
 
-Root
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Greeting site &bullet; Student application framework</title>
+	</head>
+	<body>
+		<h1>Greeting site</h1>
+		<p>Hello!</p>
+	</body>
+</html>
