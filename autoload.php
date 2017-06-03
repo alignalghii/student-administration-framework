@@ -1,8 +1,9 @@
 <?php
 
-spl_auoload_register('autoload');
+spl_autoload_register('namespaceBasedAutoload');
 
-function autoload($className)
+function namespaceBasedAutoload($namespacedClassName)
 {
-	require "$className.php";
+	$pathedModuleName = str_replace('\\', '/', $namespacedClassName);
+	require "$pathedModuleName.php";
 }
