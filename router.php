@@ -2,14 +2,14 @@
 
 require 'autoload.php';
 
-use Controller\DefaultController;
+use Controller\HomeController;
 use Controller\StudentController;
 
 /** @todo: put DEBUG value into config data */
 const DEBUG = true;
 
 $routes = [
-	['GET', '/',                 DefaultController::class, 'index'],
+	['GET', '/',                 HomeController::class, 'index'],
 	['GET', '/student',          StudentController::class, 'index'],
 	['GET', '/student/([0-9]+)', StudentController::class, 'show' ]
 ];

@@ -2,10 +2,10 @@
 
 namespace Controller;
 
-class DefaultController
+class HomeController
 {
 	public function index()
 	{
-		require 'app/View/Default/index.php';
+		require 'app/View/Home/index.php';
 	}
 }
