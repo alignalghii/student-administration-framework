@@ -1,3 +1,4 @@
 config.sed
 database/config.bash
 app/Config.php
+raw-HTTP-tests/*.actual.http
