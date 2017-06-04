@@ -9,9 +9,10 @@ use Controller\StudentController;
 const DEBUG = true;
 
 $routes = [
-	['GET', '/',                 HomeController::class, 'index'],
-	['GET', '/student',          StudentController::class, 'index'],
-	['GET', '/student/([0-9]+)', StudentController::class, 'show' ]
+	['GET',  '/',                 HomeController::class,    'index'],
+	['GET',  '/student',          StudentController::class, 'index'],
+	['GET',  '/student/([0-9]+)', StudentController::class, 'show' ],
+	['POST', '/student/([0-9]+)', StudentController::class, 'edit' ]
 ];
 
 set_error_handler('report', E_WARNING);
@@ -46,4 +47,5 @@ function report($errno, $errstr)
 {
 	echo "Internal error, please report!";
 	if (DEBUG) echo " Code: $errno, message: $errstr";
+	//return false;
 }
