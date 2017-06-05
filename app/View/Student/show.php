@@ -26,6 +26,7 @@ ob_start();
 			<input type="submit"     name="submit"          value="Submit"/>
 			<a href="<?php echo $action; ?>">Reset changes</a>
 		</form>
+		<?php if (!$isNew): ?><form method="POST" action="/student/<?php echo $id; ?>/delete"><input type="submit" value="Delete"/></form><?php endif; ?>
 <?php
 $content = ob_get_clean();
 require 'app/View/base.php';

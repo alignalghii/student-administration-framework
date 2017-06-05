@@ -39,4 +39,12 @@ class StudentRepository
 		$typedBindings[':id'] = [$id, \PDO::PARAM_INT];
 		new Statement($sql, $typedBindings); // object not used, but statement execution is a side effect
 	}
+
+	public static function delete($id)
+	{
+		$builder = new Builder('student');
+		$deletionInfo = $builder->delete($id);
+		extract($deletionInfo); // $sql, $typedBindings
+		new Statement($sql, $typedBindings); // object not used, but statement execution is a side effect
+	}
 }

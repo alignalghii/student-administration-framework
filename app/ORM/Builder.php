@@ -46,5 +46,11 @@ class Builder
 		$sql = "INSERT INTO `$tableName` ($sqlSignature) VALUES ($sqlRecord)";
 		return compact('sql', 'typedBindings');
 	}
-}
 
+	public function delete($id)
+	{
+		$sql           = 'DELETE FROM `'.$this->tableName.'` WHERE `id` = :id';
+		$typedBindings = [':id' => [$id, \PDO::PARAM_INT]];
+		return compact('sql', 'typedBindings');
+	}
+}

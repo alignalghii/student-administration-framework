@@ -58,4 +58,10 @@ class StudentController extends Controller
 			}
 		);
 	}
+
+	public function delete($id)
+	{
+		StudentRepository::delete($id);
+		$this->redirect('/student');
+	}
 }
