@@ -18,6 +18,7 @@ class Student extends Entity
 	/**
      * @todo: Too many responsibilities, dissect and delegate them to Entity, Form and Validator
 	 * @todo: Make in into a non-static, real field values holding class, like in Symfony!
+	 * @todo: Most functionalities here don't correspont to an Entity, rather, a Mapping!
 	 */
 	public static function validate($rawData)
 	{

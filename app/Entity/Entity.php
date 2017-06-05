@@ -1,6 +1,9 @@
 <?php
 
-/** @todo: Entity base class must go to a spearate Framework supernamespace, and Student to an App supernamespace */
+/**
+ * @todo: Entity base class must go to a spearate Framework supernamespace, and Student to an App supernamespace
+ * @todo: Most functionalities here don't correspont to an Entity, rather, a Mapping!
+ */
 namespace Entity;
 
 class Entity

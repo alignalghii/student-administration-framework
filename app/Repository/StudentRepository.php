@@ -23,18 +23,18 @@ class StudentRepository
 		return $statement->queryOneOrAll(false);
 	}
 
-	public static function create($student)
+	public static function create($validationEntity)
 	{
 		$builder = new Builder('student');
-		$creationInfo = $builder->create($student, Student::MOBILE_FIELDS);
+		$creationInfo = $builder->create($validationEntity, Student::MOBILE_FIELDS);
 		extract($creationInfo); // $sql, $typedBindings
 		new Statement($sql, $typedBindings); // object not used, but statement execution is a side effect
 	}
 
-	public static function update($student, $id)
+	public static function update($formEntity, $id)
 	{
 		$builder = new Builder('student');
-		$updateInfo = $builder->update($student, Student::MOBILE_FIELDS);
+		$updateInfo = $builder->update($formEntity, Student::MOBILE_FIELDS);
 		extract($updateInfo); // $sql, $typedBindings
 		$typedBindings[':id'] = [$id, \PDO::PARAM_INT];
 		new Statement($sql, $typedBindings); // object not used, but statement execution is a side effect
