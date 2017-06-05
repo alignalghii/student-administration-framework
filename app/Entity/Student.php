@@ -23,7 +23,7 @@ class Student extends Entity
 	{
 		$entity = $validationErrors = [];
 
-		if (self::isNew($rawData)) {
+		if (!self::isNew($rawData)) {
 			$entity['id'] = $rawData['id'];
 		}
 

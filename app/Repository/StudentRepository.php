@@ -25,8 +25,10 @@ class StudentRepository
 
 	public static function create($student)
 	{
-		echo '---create---';
-		var_dump($student);
+		$builder = new Builder('student');
+		$creationInfo = $builder->create($student, Student::MOBILE_FIELDS);
+		extract($creationInfo); // $sql, $typedBindings
+		new Statement($sql, $typedBindings); // object not used, but statement execution is a side effect
 	}
 
 	public static function update($student, $id)

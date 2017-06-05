@@ -21,9 +21,9 @@ class StudentController extends Controller
 		/** @todo: ViewModel, e.g. PersistenceViewModel */
 		$isNew  = !isset($idOrNull);
 		if (!$isNew) $id = $idOrNull; // $id <- Just $id, see monads
-		$title   = $isNew ? 'New student'        : "Student #$id";
-		$action  = $isNew ? '/student/new'       : "/student/$id"; // POST in form submit action, GET in reset action
-		$student = $isNew ? StudentForm::blank() : StudentRepository::find($id);
+		$title   = $isNew ? 'New student'                     : "Student #$id";
+		$action  = $isNew ? '/student/new'                    : "/student/$id"; // POST in form submit action, GET in reset action
+		$student = $isNew ? StudentForm::blankMissingFields() : StudentRepository::find($id);
 		require 'app/View/Student/show.php';
 	}
 
@@ -33,13 +33,29 @@ class StudentController extends Controller
 		StudentForm::saveOrHoldBack(
 			$_POST,
 			function() {$this->redirect('/student');},
-			function($student, $validationErrors) use($id) {require "app/View/Student/show.php";},
+			function($student, $validationErrors) use($id) {
+				/** @todo: ViewModel, e.g. PersistenceViewModel */
+				$isNew   = false;
+				$title   = "Student #$id";
+				$action  = "/student/$id"; // POST in form submit action, GET in reset action
+				require "app/View/Student/show.php";
+			},
 			$id // Just $id
 		);
 	}
 
 	public function new()
 	{
-		echo '--- insert new student ---';
+		StudentForm::saveOrHoldBack(
+			$_POST,
+			function() {$this->redirect('/student');},
+			function($student, $validationErrors) {
+				/** @todo: ViewModel, e.g. PersistenceViewModel */
+				$isNew   = true;
+				$title   = "New student";
+				$action  = "/student/new"; // POST in form submit action, GET in reset action
+				require "app/View/Student/show.php";
+			}
+		);
 	}
 }
