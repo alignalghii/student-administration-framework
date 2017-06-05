@@ -36,7 +36,7 @@ class Student extends Entity
 
 		$entity['is_male'] = array_key_exists('is_male', $rawData);
 
-		if (!empty($rawData['place_of_birth'])) {
+		if (!TextUtil::isBlank($rawData['place_of_birth'])) {
 			$entity['place_of_birth'] = $rawData['place_of_birth'];
 		}
 
