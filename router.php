@@ -4,18 +4,27 @@ require 'autoload.php';
 
 use Controller\HomeController;
 use Controller\StudentController;
+use Controller\StudyGroupController;
 
 /** @todo: put DEBUG value into config data */
 const DEBUG = true;
 
 $routes = [
 	['GET',  '/',                        HomeController::class,    'index' ],
+
 	['GET',  '/student',                 StudentController::class, 'index' ],
 	['GET',  '/student/([0-9]+)',        StudentController::class, 'show'  ],
 	['POST', '/student/([0-9]+)',        StudentController::class, 'edit'  ],
 	['GET',  '/student/new',             StudentController::class, 'show'  ],
 	['POST', '/student/new',             StudentController::class, 'new'   ],
-	['POST', '/student/([0-9]+)/delete', StudentController::class, 'delete']
+	['POST', '/student/([0-9]+)/delete', StudentController::class, 'delete'],
+
+	['GET',  '/study_group',                 StudyGroupController::class, 'index' ],
+	['GET',  '/study_group/([0-9]+)',        StudyGroupController::class, 'show'  ],
+	['POST', '/study_group/([0-9]+)',        StudyGroupController::class, 'edit'  ],
+	['GET',  '/study_group/new',             StudyGroupController::class, 'show'  ],
+	['POST', '/study_group/new',             StudyGroupController::class, 'new'   ],
+	['POST', '/study_group/([0-9]+)/delete', StudyGroupController::class, 'delete'],
 ];
 
 set_error_handler('report', E_WARNING);

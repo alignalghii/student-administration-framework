@@ -6,7 +6,7 @@ ob_start();
 		<p>Hello!</p>
 		<ul>
 			<li><a href="/student">Student</a></li>
-			<li>Study group</li>
+			<li><a href="/study_group">Study group</a></li>
 		</ul>
 <?php
 $content = ob_get_clean();
