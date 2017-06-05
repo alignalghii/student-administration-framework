@@ -10,9 +10,9 @@ use Utility\DateUtil;
 class Student extends Entity
 {
 	const MOBILE_FIELDS = [
-		'name' => \PDO::PARAM_STR,           'is_male' => \PDO::PARAM_BOOL,
-		'place_of_birth' => \PDO::PARAM_STR, 'date_of_birth' => \PDO::PARAM_STR,
-		'email' => \PDO::PARAM_STR
+		'name'           => \PDO::PARAM_STR,    'is_male'       => \PDO::PARAM_BOOL,
+		'place_of_birth' => \PDO::PARAM_STR,    'date_of_birth' => \PDO::PARAM_STR,
+		'email'          => \PDO::PARAM_STR
 	];
 
 	/**

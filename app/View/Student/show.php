@@ -1,11 +1,10 @@
 <?php
-$title = "Student #$id";
 ob_start();
 ?>
 		<p><a href="/student">Back to student list</a></p>
-		<h1>Student #<?php echo $id; ?></h1>
-		<form method="POST" action="/student/<?php echo $id; ?>">
-			<input type="hidden" name="id" value="<?php echo $id; ?>"/>
+		<h1><?php echo $title; ?></h1>
+		<form method="POST" action="<?php echo $action; ?>">
+			<?php if (!$isNew): ?><input type="hidden" name="id" value="<?php echo $id; ?>"/><?php endif; ?>
 			Name <input type="text" name="name" value="<?php echo $student['name']; ?>"/>
 			<?php echo $validationErrors['name'] ?? ''; ?>
 			<br/>
@@ -20,7 +19,7 @@ ob_start();
 			<?php echo $validationErrors['email'] ?? ''; ?>
 			<br/>
 			<input type="submit" name="submit" value="Submit"/>
-			<a href="/student/<?php echo $id; ?>">Reset changes</a>
+			<a href="<?php echo $action; ?>">Reset changes</a>
 		</form>
 <?php
 $content = ob_get_clean();

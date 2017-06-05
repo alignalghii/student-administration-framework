@@ -15,9 +15,15 @@ class StudentController extends Controller
 		require 'app/View/Student/index.php';
 	}
 
-	public function show($id)
+	/** @todo: algebraic datatype `Maybe` */
+	public function show($idOrNull = null)
 	{
-		$student = StudentRepository::find($id);
+		/** @todo: ViewModel, e.g. PersistenceViewModel */
+		$isNew  = !isset($idOrNull);
+		if (!$isNew) $id = $idOrNull; // $id <- Just $id, see monads
+		$title   = $isNew ? 'New student'        : "Student #$id";
+		$action  = $isNew ? '/student/new'       : "/student/$id"; // POST in form submit action, GET in reset action
+		$student = $isNew ? StudentForm::blank() : StudentRepository::find($id);
 		require 'app/View/Student/show.php';
 	}
 
@@ -30,5 +36,10 @@ class StudentController extends Controller
 			function($student, $validationErrors) use($id) {require "app/View/Student/show.php";},
 			$id // Just $id
 		);
+	}
+
+	public function new()
+	{
+		echo '--- insert new student ---';
 	}
 }

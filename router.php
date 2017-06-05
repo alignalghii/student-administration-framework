@@ -12,7 +12,9 @@ $routes = [
 	['GET',  '/',                 HomeController::class,    'index'],
 	['GET',  '/student',          StudentController::class, 'index'],
 	['GET',  '/student/([0-9]+)', StudentController::class, 'show' ],
-	['POST', '/student/([0-9]+)', StudentController::class, 'edit' ]
+	['POST', '/student/([0-9]+)', StudentController::class, 'edit' ],
+	['GET',  '/student/new',      StudentController::class, 'show' ],
+	['POST', '/student/new',      StudentController::class, 'new'  ]
 ];
 
 set_error_handler('report', E_WARNING);

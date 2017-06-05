@@ -8,6 +8,15 @@ use Utility\ArrayUtil;
 
 class StudentForm
 {
+	public static function blank()
+	{
+		$blankFormEntity = [];
+		foreach (Student::MOBILE_FIELDS as $fieldName => $type) {
+			$blankFormEntity[$fieldName] = $type == \PDO::PARAM_BOOL ? false : '';
+		}
+		return $blankFormEntity;
+	}
+
 	/** @todo: algebraic datatype `Maybe` */
 	public static function saveOrHoldBack($rawData, $callbackSuccess, $callbackFailure, $idOrNull)
 	{
