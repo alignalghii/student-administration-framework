@@ -5,6 +5,7 @@ require 'autoload.php';
 use Controller\HomeController;
 use Controller\StudentController;
 use Controller\StudyGroupController;
+use Controller\StudentStudyGroupMembershipController;
 
 /** @todo: put DEBUG value into config data */
 const DEBUG = true;
@@ -25,9 +26,16 @@ $routes = [
 	['GET',  '/study_group/new',             StudyGroupController::class, 'show'  ],
 	['POST', '/study_group/new',             StudyGroupController::class, 'new'   ],
 	['POST', '/study_group/([0-9]+)/delete', StudyGroupController::class, 'delete'],
+
+	['GET',  '/student_study_group_membership',                 StudentStudyGroupMembershipController::class, 'index' ],
+	['GET',  '/student_study_group_membership/([0-9]+)',        StudentStudyGroupMembershipController::class, 'show'  ],
+	['POST', '/student_study_group_membership/([0-9]+)',        StudentStudyGroupMembershipController::class, 'edit'  ],
+	['GET',  '/student_study_group_membership/new',             StudentStudyGroupMembershipController::class, 'show'  ],
+	['POST', '/student_study_group_membership/new',             StudentStudyGroupMembershipController::class, 'new'   ],
+	['POST', '/student_study_group_membership/([0-9]+)/delete', StudentStudyGroupMembershipController::class, 'delete'],
 ];
 
-set_error_handler('report', E_WARNING);
+set_error_handler('report', E_ALL);
 
 	$uri    = $_SERVER['REQUEST_URI'];
 	$method = $_SERVER['REQUEST_METHOD'];

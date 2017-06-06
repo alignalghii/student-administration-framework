@@ -3,24 +3,36 @@
 namespace ORM;
 
 use ORM\DbConn;
+use ORM\MyTriggerException;
 
 class Statement
 {
 	private $dbh;
 	private $stmt;
 
+	/**
+	 * @todo dependency injection for trigger text parsing in exception message,
+	 *       or raise this classification onto a higher or abstracter level
+	 */
 	public function __construct($sql, $typedBindings)
 	{
-		$this->dbh  = DbConn::get();
-		$this->stmt = $this->dbh->prepare($sql);
-		if ($this->stmt) {
-			foreach ($typedBindings as $placeholder => $typedValue) {
-				list($value, $type) = $typedValue;
-				$this->stmt->bindValue($placeholder, $value, $type);
+		try {
+			$this->dbh  = DbConn::get();
+			$this->stmt = $this->dbh->prepare($sql);
+
+			if ($this->stmt) {
+				foreach ($typedBindings as $placeholder => $typedValue) {
+					list($value, $type) = $typedValue;
+					$this->stmt->bindValue($placeholder, $value, $type);
+				}
+				$this->stmt->execute();
+			} // else ...
+		} catch (\Exception $e) {
+			if (preg_match('/Membership limit of ([0-9]+) exceeded/', $e->getMessage(), $match)) {
+				throw new MyTriggerException($match[1], $sql, $typedBindings);
+			} else {
+				throw $e;
 			}
-			$this->stmt->execute();
-		} else {
-			throw new \Exception('ORM problem');
 		}
 	}
 
