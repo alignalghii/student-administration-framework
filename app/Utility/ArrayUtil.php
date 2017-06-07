@@ -12,4 +12,16 @@ class ArrayUtil
 		}
 		return $reshapedAssoc;
 	}
+
+	public static function take($key, $assoc, $default)
+	{
+		$value = $assoc[$key] ?? $default;
+		unset($assoc[$key]);
+		return compact('value', 'assoc');
+	}
+
+	public static function paginate($n, $arr)
+	{
+		return [$arr];
+	}
 }
