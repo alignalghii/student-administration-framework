@@ -15,7 +15,10 @@ class StudentController extends Controller
 		require 'app/View/Student/index.php';
 	}
 
-	/** @todo: algebraic datatype `Maybe` */
+	/**
+	 * @todo: algebraic datatype `Maybe`
+	 * @todo: derivative viewVariables belong to a standalone `StudentViewModel` module
+	 */
 	public function show($idOrNull = null)
 	{
 		/** @todo: ViewModel, e.g. PersistenceViewModel */
