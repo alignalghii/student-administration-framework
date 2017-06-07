@@ -4,6 +4,7 @@ namespace Form;
 
 use Entity\StudentStudyGroupMembership;
 use ORM\MyTriggerException;
+use ORM\MyUniquenessException;
 use Repository\StudentStudyGroupMembershipRepository;
 use Utility\ArrayUtil;
 
@@ -32,9 +33,13 @@ class StudentStudyGroupMembershipForm
 			try {
 				self::saveForm($idOrNull, $formEntity, $validationEntity);
 				$callbackSuccess();
-			}  catch (MyTriggerException $triggerException) {
-				$limit = $triggerException->getLimit();
-				$validationErrors['student_id'] = "Limit of attendable study groups is $limit";
+			} catch (MyTriggerException $triggerException) {
+				$triggerLimit = $triggerException->getTriggerLimit();
+				$validationErrors['student_id'] = "Limit of attendable study groups is $triggerLimit";
+				$callbackFailure($formEntity, $validationErrors);
+			} catch (MyUniquenessException $uniquenessException) {
+				$validationErrors['student_id'] = "Duplicate membership (part I)";
+				$validationErrors['study_group_id'] = "Duplicate membership (part II)";
 				$callbackFailure($formEntity, $validationErrors);
 			}
 		} else {

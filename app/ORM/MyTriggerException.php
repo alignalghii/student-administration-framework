@@ -4,20 +4,20 @@ namespace ORM;
 
 class MyTriggerException extends \Exception
 {
-	private $triggerLimit;
 	private $sql;
 	private $typedBindings;
+	private $triggerLimit;
 
-	public function __construct($triggerLimit, $sql, $typedBindings)
+	public function __construct( $sql, $typedBindings, $triggerLimit)
 	{
 		$typedBindingsCode = json_encode($typedBindings);
 		parent::__construct("Limit $triggerLimit in SQL $sql with bindings $typedBindingsCode");
-		$this->triggerLimit  = $triggerLimit;
 		$this->sql           = $sql;
 		$this->typedBindings = $typedBindings;
+		$this->triggerLimit  = $triggerLimit;
 	}
 
-	public function getLimit()         {return $this->triggerLimit; }
 	public function getSql()           {return $this->sql;          }
 	public function getTypedBindings() {return $this->typedBindings;}
+	public function getTriggerLimit()  {return $this->triggerLimit; }
 }

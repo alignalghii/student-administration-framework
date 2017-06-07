@@ -3,6 +3,7 @@
 namespace Form;
 
 use Entity\StudyGroup;
+use ORM\MyUniquenessException;
 use Repository\StudyGroupRepository;
 use Utility\ArrayUtil;
 
@@ -28,8 +29,13 @@ class StudyGroupForm
 		list($validationEntity, $validationErrors) = StudyGroup::validate($rawData);
 		$formEntity = self::blankMissingFields($validationEntity);
 		if (!$validationErrors) {
-			self::saveForm($idOrNull, $formEntity, $validationEntity);
-			$callbackSuccess();
+			try {
+				self::saveForm($idOrNull, $formEntity, $validationEntity);
+				$callbackSuccess();
+			} catch (MyUniquenessException $uniquenessException) {
+				$validationErrors['name'] = "Duplicate entry";
+				$callbackFailure($formEntity, $validationErrors);
+			}
 		} else {
 			$callbackFailure($formEntity, $validationErrors);
 		}

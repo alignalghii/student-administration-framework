@@ -28,11 +28,14 @@ class Statement
 				$this->stmt->execute();
 			} // else ...
 		} catch (\Exception $e) {
-			if (preg_match('/Membership limit of ([0-9]+) exceeded/', $e->getMessage(), $match)) {
-				throw new MyTriggerException($match[1], $sql, $typedBindings);
-			} else {
-				throw $e;
+            $message = $e->getMessage();
+			if (preg_match('/Membership limit of ([0-9]+) exceeded/', $message, $match)) {
+				throw new MyTriggerException($sql, $typedBindings, $match[1]);
 			}
+			if (preg_match("/Duplicate entry '(.*)' for key '(.*)'/", $message, $match)) {
+				throw new MyUniquenessException($sql, $typedBindings, $match[1], $match[2]);
+			}
+			throw $e;
 		}
 	}
 

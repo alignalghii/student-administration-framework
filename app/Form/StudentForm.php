@@ -3,6 +3,7 @@
 namespace Form;
 
 use Entity\Student;
+use ORM\MyUniquenessException;
 use Repository\StudentRepository;
 use Utility\ArrayUtil;
 
@@ -28,8 +29,13 @@ class StudentForm
 		list($validationEntity, $validationErrors) = Student::validate($rawData);
 		$formEntity = self::blankMissingFields($validationEntity);
 		if (!$validationErrors) {
-			self::saveForm($idOrNull, $formEntity, $validationEntity);
-			$callbackSuccess();
+			try {
+				self::saveForm($idOrNull, $formEntity, $validationEntity);
+				$callbackSuccess();
+			} catch (MyUniquenessException $uniquenessException) {
+				$validationErrors['email'] = "Duplicate entry";
+				$callbackFailure($formEntity, $validationErrors);
+			}
 		} else {
 			$callbackFailure($formEntity, $validationErrors);
 		}
