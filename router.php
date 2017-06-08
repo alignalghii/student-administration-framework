@@ -13,12 +13,13 @@ const DEBUG = true;
 $routes = [
 	['GET',  '/',                        HomeController::class,    'index' ],
 
-	['GET',  '/student',                 StudentController::class, 'index' ],
-	['GET',  '/student/([0-9]+)',        StudentController::class, 'show'  ],
-	['POST', '/student/([0-9]+)',        StudentController::class, 'edit'  ],
-	['GET',  '/student/new',             StudentController::class, 'show'  ],
-	['POST', '/student/new',             StudentController::class, 'new'   ],
-	['POST', '/student/([0-9]+)/delete', StudentController::class, 'delete'],
+	['GET',  '/student',                 StudentController::class, 'index'             ],
+	['GET',  '/student/([0-9]+)',        StudentController::class, 'show'              ],
+	['POST', '/student/([0-9]+)',        StudentController::class, 'edit'              ],
+	['GET',  '/student/new',             StudentController::class, 'show'              ],
+	['POST', '/student/new',             StudentController::class, 'new'               ],
+	['POST', '/student/([0-9]+)/delete', StudentController::class, 'delete'            ],
+	['POST', '/student/delete',          StudentController::class, 'deleteSelectedOnes'],
 
 	['GET',  '/study_group',                 StudyGroupController::class, 'index' ],
 	['GET',  '/study_group/([0-9]+)',        StudyGroupController::class, 'show'  ],

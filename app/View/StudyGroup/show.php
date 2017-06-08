@@ -1,7 +1,7 @@
 <?php
 ob_start();
 ?>
-		<p><a href="/study_group">Back to study group list</a></p>
+		<p><a href="/">Back home</a></p>
 		<h1><?php echo $title; ?></h1>
 		<form method="POST" action="<?php echo $action; ?>">
 			<?php if (!$isNew): ?><input type="hidden" name="id" value="<?php echo $id; ?>"/><?php endif; ?>

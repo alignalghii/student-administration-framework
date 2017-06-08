@@ -35,7 +35,7 @@ class StudentController extends Controller
 	{
 		StudentForm::saveOrHoldBack(
 			$_POST,
-			function() {$this->redirect('/student');},
+			function() {$this->redirect('/');},
 			function($student, $validationErrors) use($id) {
 				/** @todo: ViewModel, e.g. PersistenceViewModel */
 				$isNew   = false;
@@ -51,7 +51,7 @@ class StudentController extends Controller
 	{
 		StudentForm::saveOrHoldBack(
 			$_POST,
-			function() {$this->redirect('/student');},
+			function() {$this->redirect('/');},
 			function($student, $validationErrors) {
 				/** @todo: ViewModel, e.g. PersistenceViewModel */
 				$isNew   = true;
@@ -65,6 +65,16 @@ class StudentController extends Controller
 	public function delete($id)
 	{
 		StudentRepository::delete($id);
-		$this->redirect('/student');
+		$this->redirect('/');
 	}
+
+	public function deleteSelectedOnes()
+	{
+		array_map(
+			[StudentRepository::class, 'delete'],
+			array_keys($_POST['delete_student'])
+		);
+		$this->redirect('/');
+	}
+
 }

@@ -32,7 +32,7 @@ class StudyGroupController extends Controller
 	{
 		StudyGroupForm::saveOrHoldBack(
 			$_POST,
-			function() {$this->redirect('/study_group');},
+			function() {$this->redirect('/');},
 			function($studyGroup, $validationErrors) use($id) {
 				/** @todo: ViewModel, e.g. PersistenceViewModel */
 				$isNew   = false;
@@ -48,7 +48,7 @@ class StudyGroupController extends Controller
 	{
 		StudyGroupForm::saveOrHoldBack(
 			$_POST,
-			function() {$this->redirect('/study_group');},
+			function() {$this->redirect('/');},
 			function($studyGroup, $validationErrors) {
 				/** @todo: ViewModel, e.g. PersistenceViewModel */
 				$isNew   = true;
@@ -62,6 +62,6 @@ class StudyGroupController extends Controller
 	public function delete($id)
 	{
 		StudyGroupRepository::delete($id);
-		$this->redirect('/study_group');
+		$this->redirect('/');
 	}
 }
