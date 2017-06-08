@@ -24,4 +24,15 @@ class ArrayUtil
 	{
 		return [$arr];
 	}
+
+	public static function keyedZip($keys, $values)
+	{
+		$keyedZip = [];
+		foreach ($keys as $i => $key) {
+			if (array_key_exists($i, $values)) {
+				$keyedZip[$key] = $values[$i];
+			}
+		}
+		return $keyedZip;
+	}
 }

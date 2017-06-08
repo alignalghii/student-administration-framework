@@ -8,6 +8,12 @@ use ORM\Builder;
 
 class StudentStudyGroupMembershipRepository
 {
+	public static function countActiveStudents()
+	{
+		$statement = new Statement('SELECT COUNT(DISTINCT `student_id`) AS `n` FROM `student_study_group_membership`', []);
+		return $statement->queryOneOrAll(true)['n'];
+	}
+
 	public static function find($id)
 	{
 		$statement = new Statement(

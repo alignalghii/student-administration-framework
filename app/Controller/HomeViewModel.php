@@ -2,10 +2,12 @@
 
 namespace Controller;
 
-use Repository\StudentRepository;
 use Repository\StudyGroupRepository;
+use Repository\StudentStudyGroupMembershipRepository;
 use Repository\JoinedRepository;
+use View\Helper;
 use Utility\TextUtil;
+use Utility\ArrayUtil;
 
 class HomeViewModel
 {
@@ -14,16 +16,16 @@ class HomeViewModel
 	/** @todo -- possible further parameter: JavaScript-enabled/disabled mode */
 	public function __construct($isGetMethod)
 	{
-		$students            = $this->retrieveAndConvertStudents();
-		$studyGroups         = StudyGroupRepository::findAll();
-		$countActiveStudents = JoinedRepository::countActiveStudents();
-		$countStudents    = count($students);
-		$countStudyGroups = count($studyGroups);
+		$studentsWithTheirGroupListForEach = $this->retrieveAndConvertStudents();
+		$studyGroups                       = StudyGroupRepository::findAll();
+		$countActiveStudents               = StudentStudyGroupMembershipRepository::countActiveStudents();
+		$countStudents                     = count($studentsWithTheirGroupListForEach);
+		$countStudyGroups                  = count($studyGroups);
 
 		$this->viewVars = compact(
 			'isGetMethod',
-			'students', 'countStudents',
-			'studyGroups', 'countStudyGroups',
+			'studentsWithTheirGroupListForEach', 'countStudents',
+			'studyGroups',                       'countStudyGroups',
 			'countActiveStudents'
 		);
 	}
@@ -32,19 +34,27 @@ class HomeViewModel
 
 	private function retrieveAndConvertStudents()
 	{
-		$studentEntities = StudentRepository::findAll();
+		$entities = JoinedRepository::findAllStudentsWithTheirGroupListForEach();
 		return array_map(
 			[$this, 'convertStudent'],
-			$studentEntities
+			$entities
 		);
 	}
 
-	private function convertStudent($studentEntity)
+	private function convertStudent($studentWithHisPossiblyEmptyGroupList)
 	{
-		extract($studentEntity); // $id, $name, $is_male, $place_of_birth, $date_of_birth, $email
+		extract($studentWithHisPossiblyEmptyGroupList); // $id, $name, $is_male, $place_of_birth, $date_of_birth, $email, $groupNamesText, $groupIdsText
 		$sex = $is_male ? 'Male' : 'Female';
 		$place_and_date_of_birth = TextUtil::contractBlankMembers([$place_of_birth, $date_of_birth]);
-		$groups = '[TODO]';
-		return compact('id', 'name', 'sex', 'place_and_date_of_birth', 'groups');
+		$groupIds   = TextUtil::explode(' ~|!>~ ', $groupIdsText);
+		$groupNames = TextUtil::explode(' ~|!>~ ', $groupNamesText);
+		$groups = ArrayUtil::keyedZip($groupIds, $groupNames);
+		// @todo: handling `see more' and `see less'
+		$abbrev = count($groups) > 2;
+		$helper = new Helper('/study_group/%d');
+		$groupLinks = $helper->linkifyByIds($groups);
+		$groupLinksHtml = implode(', ', $groupLinks);
+		return compact('id', 'name', 'sex', 'place_and_date_of_birth', 'groupLinksHtml', 'abbrev');
 	}
+
 }

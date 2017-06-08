@@ -19,4 +19,9 @@ class TextUtil
 		);
 		return implode(', ', $nonBlankStringMembers);
 	}
+
+	public static function explode($separator, $text)
+	{
+		return $text ? explode($separator, $text) : [];
+	}
 }

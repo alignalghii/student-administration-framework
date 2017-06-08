@@ -12,7 +12,7 @@ ob_start();
 			<ul>
 <?php foreach ($studyGroups as $studyGroup): ?>
 				<li>
-					<input type="checkbox" name="search_student_by_group[<?php echo $studyGroup['id']; ?>]"<?php if ($isGetMethod): ?>checked<?php endif; ?>/>
+					<input type="checkbox" name="search_student_by_group[<?php echo $studyGroup['id']; ?>]"<?php if ($isGetMethod): ?> checked<?php endif; ?>/>
 					<a href="/study_group/<?php echo $studyGroup['id']; ?>"><?php echo $studyGroup['name']; ?></a>
 				</li>
 <?php endforeach; ?>
@@ -23,13 +23,13 @@ ob_start();
 		<a href="/student/new">New</a>
 		<form method="POST" action="student/delete">
 			<table>
-<?php foreach ($students as $student): ?>
+<?php foreach ($studentsWithTheirGroupListForEach as $student): ?>
 				<tr>
 					<td><input type="checkbox" name="delete_student[<?php echo $student['id']; ?>]"/></td>
 					<td><a href="/student/<?php echo $student['id']; ?>"><?php echo $student['name']; ?></a></td>
 					<td><?php echo $student['sex']; ?></td>
 					<td><?php echo $student['place_and_date_of_birth']; ?></td>
-					<td><?php echo $student['groups']; ?></td>
+					<td><?php echo $student['groupLinksHtml']; ?></td>
 				</tr>
 <?php endforeach; ?>
 			</table>
