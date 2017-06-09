@@ -68,13 +68,4 @@ class StudentController extends Controller
 		$this->redirect('/');
 	}
 
-	public function deleteSelectedOnes()
-	{
-		array_map(
-			[StudentRepository::class, 'delete'],
-			array_keys($_POST['delete_student'])
-		);
-		$this->redirect('/');
-	}
-
 }

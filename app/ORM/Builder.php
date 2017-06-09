@@ -53,4 +53,20 @@ class Builder
 		$typedBindings = [':id' => [$id, \PDO::PARAM_INT]];
 		return compact('sql', 'typedBindings');
 	}
+
+	/**
+	 * Safe MySQL-injection-safe alternative to binding in IN-conditions
+	 * (but beware, only $ids gets protected, You are still repsonsible for $leftSide)
+	 */
+	public static function IN($leftSide, $ids)
+	{
+		if (empty($ids)) {
+			return 'FALSE'; // wrong SQL: ... IN ()
+		} else {
+			$safeIds = array_map('intval', $ids); // primitive, but safe protection against MySQL-injection
+			$idList  = implode(', ', $safeIds);
+			return "$leftSide IN ($idList)";
+		}
+	}
+
 }

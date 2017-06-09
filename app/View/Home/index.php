@@ -5,14 +5,16 @@ ob_start();
 		<h1>Student Administration Framework</h1>
 		<h2>Students</h2>
 		<p><?php echo $countStudents; ?> registered</p>
-		<form method="POST" action="/student/search">
+		<form method="POST" action="/">
 			Search for name
-			<input type="text" name="search_student_by_name"/>
+			<input type="text" name="search_student_by_name" value="<?php echo $name; ?>"/>
 			<p>Filters for study groups</p>
+			<input type="checkbox" name="include_also_groupless_students"<?php if ($includeAlsoGrouplessStudents): ?> checked<?php endif; ?>/>
+			Include also students belonging to none of the study groups
 			<ul>
 <?php foreach ($studyGroups as $studyGroup): ?>
 				<li>
-					<input type="checkbox" name="search_student_by_group[<?php echo $studyGroup['id']; ?>]"<?php if ($isGetMethod): ?> checked<?php endif; ?>/>
+					<input type="checkbox" name="search_student_by_group[<?php echo $studyGroup['id']; ?>]"<?php if (in_array($studyGroup['id'], $groupIds)): ?> checked<?php endif; ?>/>
 					<a href="/study_group/<?php echo $studyGroup['id']; ?>"><?php echo $studyGroup['name']; ?></a>
 				</li>
 <?php endforeach; ?>

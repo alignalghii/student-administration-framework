@@ -14,32 +14,46 @@ class HomeViewModel
 	private $viewVars;
 
 	/** @todo -- possible further parameter: JavaScript-enabled/disabled mode */
-	public function __construct($isGetMethod)
+	public function __construct($inputModel)
 	{
-		$studentsWithTheirGroupListForEach = $this->retrieveAndConvertStudents();
+		/**
+		 * MANDATORY:                           $isGetMethod = (true | false)
+		 * OPTIONAL (if $isGetMethod is false):                           \--> $name, $groupIds, $includeAlsoGrouplessStudents
+		 */
+		extract($inputModel);
+		$studentsWithTheirGroupListForEach = $isGetMethod ? JoinedRepository::findAllStudentsWithTheirGroupListForEach()
+		                                                  : JoinedRepository::search($name, $groupIds, $includeAlsoGrouplessStudents);
+
+		// Some restructuration/conversion in order to be easier to present
+		$studentsWithTheirGroupListForEach = array_map(
+			[$this, 'convertStudent'],
+			$studentsWithTheirGroupListForEach
+		);
+
 		$studyGroups                       = StudyGroupRepository::findAll();
 		$countActiveStudents               = StudentStudyGroupMembershipRepository::countActiveStudents();
 		$countStudents                     = count($studentsWithTheirGroupListForEach);
 		$countStudyGroups                  = count($studyGroups);
 
+		if ($isGetMethod) {
+			$name     = '';
+			$groupIds = array_map(
+				function($g) {return $g['id'];},
+				$studyGroups
+			);
+			$includeAlsoGrouplessStudents = true;
+		}
+
 		$this->viewVars = compact(
 			'isGetMethod',
 			'studentsWithTheirGroupListForEach', 'countStudents',
 			'studyGroups',                       'countStudyGroups',
-			'countActiveStudents'
+			'countActiveStudents',
+			'name', 'groupIds', 'includeAlsoGrouplessStudents'
 		);
 	}
 
 	public function getViewVars() {return $this->viewVars;}
-
-	private function retrieveAndConvertStudents()
-	{
-		$entities = JoinedRepository::findAllStudentsWithTheirGroupListForEach();
-		return array_map(
-			[$this, 'convertStudent'],
-			$entities
-		);
-	}
 
 	private function convertStudent($studentWithHisPossiblyEmptyGroupList)
 	{
