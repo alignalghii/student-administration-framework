@@ -9,33 +9,19 @@ class HomeController extends Controller
 {
 	public function index()
 	{
-		$isGetMethod = true;
-
-		$inputModel = compact('isGetMethod');
-		$viewModel  = new HomeViewModel($inputModel); // @todo -- possible further parameter: JavaScript-enabled/disabled mode
-
+		$viewModel  = new HomeViewModel(true, $_GET); // true: GET, false: POST
 		$viewVars = $viewModel->getViewVars();
-		extract($viewVars); // $isGetMethod, $studentsWithTheirGroupListForEach, $countStudents, $countActiveStudents, $studyGroups, $countStudyGroups
+		extract($viewVars);
+		// $studentsWithTheirGroupListForEach, $countStudents, $countActiveStudents, $studyGroups, $countStudyGroups
 		require 'app/View/Home/index.php';
-	}
 
-	public function search()
-	{
-		$isGetMethod = false;
-		$name        = $_POST['search_student_by_name'];
-		$groupIds    = array_keys($_POST['search_student_by_group'] ?? []);
-		$includeAlsoGrouplessStudents = array_key_exists('include_also_groupless_students', $_POST);
-
-		$inputModel = compact('isGetMethod', 'name', 'groupIds', 'includeAlsoGrouplessStudents');
-		$viewModel  = new HomeViewModel($inputModel); // @todo -- possible further parameter: JavaScript-enabled/disabled mode
-
-		$viewVars = $viewModel->getViewVars();
-		extract($viewVars); // $isGetMethod, $studentsWithTheirGroupListForEach, $countStudents, $countActiveStudents, $studyGroups, $countStudyGroups
-		require 'app/View/Home/index.php';
 	}
 
 	public function deleteSelectedOnes()
 	{
+		$viewModel = new HomeViewModel(false, $_POST); // true: GET, false: POST
+		$viewVars = $viewModel->getViewVars();
+		require 'app/View/Home/index.php';
 		array_map(
 			[StudentRepository::class, 'delete'],
 			array_keys($_POST['delete_student'] ?? [])

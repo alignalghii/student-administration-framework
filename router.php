@@ -12,9 +12,8 @@ use Controller\JoinedController;
 const DEBUG = true;
 
 $routes = [
-	['GET',  '/',                        HomeController::class, 'index'             ],
-	['POST', '/',                        HomeController::class, 'search'            ],
-	['POST', '/student/delete',          HomeController::class, 'deleteSelectedOnes'],
+	['GET',  '/', HomeController::class, 'index'             ], // also search (bookmarkability)
+	['POST', '/', HomeController::class, 'deleteSelectedOnes'], // should also keep search querystring for possible re-search
 
 	['GET',  '/student',                 StudentController::class, 'index' ],
 	['GET',  '/student/([0-9]+)',        StudentController::class, 'show'  ],
@@ -40,8 +39,9 @@ $routes = [
 
 set_error_handler('report', E_ALL);
 
-	$uri    = $_SERVER['REQUEST_URI'];
-	$method = $_SERVER['REQUEST_METHOD'];
+	$uriArray  = explode('?', $_SERVER['REQUEST_URI']);
+	$method    = $_SERVER['REQUEST_METHOD'];
+	$uriProper = $uriArray[0];
 
 	$found = false;
 	foreach ($routes as $route) {
@@ -49,7 +49,7 @@ set_error_handler('report', E_ALL);
 			list($routeMethod, $uriPattern, $controller, $action) = $route;
 			if ($method == $routeMethod) {
 				$uriPattern = "!^$uriPattern$!";
-				$matched = preg_match($uriPattern, $uri, $match);
+				$matched = preg_match($uriPattern, $uriProper, $match);
 				if ($matched) {
 					array_shift($match);
 					call_user_func_array([new $controller, $action], $match);

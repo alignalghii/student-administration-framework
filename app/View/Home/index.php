@@ -4,24 +4,24 @@ ob_start();
 ?>
 		<h1>Student Administration Framework</h1>
 		<h2>Students</h2>
-		<p><?php echo $countStudents; ?> registered</p>
-		<form method="POST" action="/">
+		<p><?php echo $countAllStudents; ?> registered</p>
+		<form method="GET" action="/">
 			Search for name
-			<input type="text" name="search_student_by_name" value="<?php echo $name; ?>"/>
+			<input type="text" name="search_student_by_name" value="<?php echo $namePattern; ?>"/>
 			<p>Filters for study groups</p>
 			<input type="checkbox" name="include_also_groupless_students"<?php if ($includeAlsoGrouplessStudents): ?> checked<?php endif; ?>/>
 			Include also students belonging to none of the study groups
 			<ul>
 <?php foreach ($studyGroups as $studyGroup): ?>
 				<li>
-					<input type="checkbox" name="search_student_by_group[<?php echo $studyGroup['id']; ?>]"<?php if (in_array($studyGroup['id'], $groupIds)): ?> checked<?php endif; ?>/>
+					<input type="checkbox" name="search_student_by_group[<?php echo $studyGroup['id']; ?>]"<?php if (in_array($studyGroup['id'], $groupIdsForSearch)): ?> checked<?php endif; ?>/>
 					<a href="/study_group/<?php echo $studyGroup['id']; ?>"><?php echo $studyGroup['name']; ?></a>
 				</li>
 <?php endforeach; ?>
 			</ul>
-			<input type="submit" value="Student search"/>
+			<input type="submit" name="search_submitted" value="Student search"/>
 		</form>
-		<?php echo $countStudents; ?> students
+		<?php echo $countFoundStudents; ?> students
 		<a href="/student/new">New</a>
 		<form method="POST" action="student/delete">
 			<table>
@@ -35,7 +35,7 @@ ob_start();
 				</tr>
 <?php endforeach; ?>
 			</table>
-			<input type="submit" value="Delete selected students"/>
+			<input type="submit" name = "deletion_submitted" value="Delete selected students"/>
 		</form>
 		<h2>Study groups</h2>
 		<p><?php echo $countStudyGroups; ?> study groups with <?php echo $countActiveStudents; ?> students</p>

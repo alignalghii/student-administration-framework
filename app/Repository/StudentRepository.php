@@ -23,6 +23,12 @@ class StudentRepository
 		return $statement->queryOneOrAll(false);
 	}
 
+	public static function countAll()
+	{
+		$statement = new Statement('SELECT COUNT(*) AS `n` FROM `student`', []);
+		return $statement->queryOneOrAll(true)['n'];
+	}
+
 	public static function create($validationEntity)
 	{
 		$builder = new Builder('student');

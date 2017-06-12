@@ -35,4 +35,12 @@ class ArrayUtil
 		}
 		return $keyedZip;
 	}
+
+	public function getAllAt($key, $assocs)
+	{
+		return array_map(
+			function($assoc) {return $assoc[$key];},
+			$assocs
+		);
+	}
 }

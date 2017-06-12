@@ -2,9 +2,12 @@
 
 namespace Controller;
 
+use Request;
+use Repository\StudentRepository;
 use Repository\StudyGroupRepository;
 use Repository\StudentStudyGroupMembershipRepository;
 use Repository\JoinedRepository;
+use Entity\Entity;
 use View\Helper;
 use Utility\TextUtil;
 use Utility\ArrayUtil;
@@ -14,42 +17,40 @@ class HomeViewModel
 	private $viewVars;
 
 	/** @todo -- possible further parameter: JavaScript-enabled/disabled mode */
-	public function __construct($inputModel)
+	public function __construct($isGetMethod, $superglobal)
 	{
-		/**
-		 * MANDATORY:                           $isGetMethod = (true | false)
-		 * OPTIONAL (if $isGetMethod is false):                           \--> $name, $groupIds, $includeAlsoGrouplessStudents
-		 */
-		extract($inputModel);
-		$studentsWithTheirGroupListForEach = $isGetMethod ? JoinedRepository::findAllStudentsWithTheirGroupListForEach()
-		                                                  : JoinedRepository::search($name, $groupIds, $includeAlsoGrouplessStudents);
+		$studyGroups                       = StudyGroupRepository::findAll();
+		$countActiveStudents               = StudentStudyGroupMembershipRepository::countActiveStudents();
+		$countAllStudents                  = StudentRepository::countAll();
+		$countStudyGroups                  = count($studyGroups);
+
+		$request = new Request($superglobal);
+		if ($request->formFieldExists('search_submitted')) {
+			$groupIdsForSearch            = $request->checkboxIdsIn('search_student_by_group');
+			$includeAlsoGrouplessStudents = $request->formFieldExists('include_also_groupless_students');
+		} else { // if they are not unset explicity, they count as all-filled:
+			$groupIdsForSearch            = Entity::getAllIds($studyGroups);
+			$includeAlsoGrouplessStudents = true;
+		}
+		$studentIdsToDelete               = $request->checkboxIdsIn('delete_student');
+		$namePattern                      = $request->FormFieldValue('search_student_by_name', '');
+		$queryString                      = $request->queryString();
+
+		$studentSearchResult = JoinedRepository::search($namePattern, $groupIdsForSearch, $includeAlsoGrouplessStudents);
 
 		// Some restructuration/conversion in order to be easier to present
 		$studentsWithTheirGroupListForEach = array_map(
 			[$this, 'convertStudent'],
-			$studentsWithTheirGroupListForEach
+			$studentSearchResult
 		);
-
-		$studyGroups                       = StudyGroupRepository::findAll();
-		$countActiveStudents               = StudentStudyGroupMembershipRepository::countActiveStudents();
-		$countStudents                     = count($studentsWithTheirGroupListForEach);
-		$countStudyGroups                  = count($studyGroups);
-
-		if ($isGetMethod) {
-			$name     = '';
-			$groupIds = array_map(
-				function($g) {return $g['id'];},
-				$studyGroups
-			);
-			$includeAlsoGrouplessStudents = true;
-		}
+		$countFoundStudents = count($studentsWithTheirGroupListForEach);
 
 		$this->viewVars = compact(
-			'isGetMethod',
-			'studentsWithTheirGroupListForEach', 'countStudents',
+			'countAllStudents',
+			'studentsWithTheirGroupListForEach', 'countFoundStudents',
 			'studyGroups',                       'countStudyGroups',
 			'countActiveStudents',
-			'name', 'groupIds', 'includeAlsoGrouplessStudents'
+			'namePattern', 'groupIdsForSearch', 'includeAlsoGrouplessStudents'
 		);
 	}
 
