@@ -19,13 +19,13 @@ class HomeController extends Controller
 
 	public function deleteSelectedOnes()
 	{
-		$viewModel = new HomeViewModel(false, $_POST); // true: GET, false: POST
-		$viewVars = $viewModel->getViewVars();
-		require 'app/View/Home/index.php';
 		array_map(
 			[StudentRepository::class, 'delete'],
 			array_keys($_POST['delete_student'] ?? [])
 		);
-		$this->redirect('/');
+		$viewModel = new HomeViewModel(false, $_GET + $_POST); // true: GET, false: POST
+		$viewVars = $viewModel->getViewVars();
+		extract($viewVars);
+		require 'app/View/Home/index.php';
 	}
 }

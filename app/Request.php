@@ -23,8 +23,15 @@ class Request
 		return $this->superglobal[$formFieldName] ?? $defaultValue;
 	}
 
-	public function queryString()
+	public function uriWithQueryString($uri)
 	{
-		return http_build_query($this->superglobal);
+		$queryString = $this->queryString();
+		return $queryString ? "$uri?$queryString" : $uri;
+	}
+
+	private function queryString()
+	{
+		$raw_queryString = http_build_query($this->superglobal);
+		return htmlspecialchars($raw_queryString);
 	}
 }

@@ -61,7 +61,7 @@ set_error_handler('report', E_ALL);
 		}
 	}
 	if (!$found) {
-		echo "No matchable route pattern found for `$method $uri`";
+		echo "No matchable route pattern found for `$method $uriProper`";
 	}
 
 restore_error_handler();

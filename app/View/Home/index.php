@@ -19,11 +19,11 @@ ob_start();
 				</li>
 <?php endforeach; ?>
 			</ul>
-			<input type="submit" name="search_submitted" value="Student search"/>
+			<input type="submit" name="search_submitted" value="Student search (+ reset deletion selections)"/>
 		</form>
 		<?php echo $countFoundStudents; ?> students
 		<a href="/student/new">New</a>
-		<form method="POST" action="student/delete">
+		<form method="POST" action="<?php echo $postUriWithQueryString; ?>">
 			<table>
 <?php foreach ($studentsWithTheirGroupListForEach as $student): ?>
 				<tr>
@@ -35,7 +35,7 @@ ob_start();
 				</tr>
 <?php endforeach; ?>
 			</table>
-			<input type="submit" name = "deletion_submitted" value="Delete selected students"/>
+			<input type="submit" name = "deletion_submitted" value="Delete selected students (+ keep search selections)"/>
 		</form>
 		<h2>Study groups</h2>
 		<p><?php echo $countStudyGroups; ?> study groups with <?php echo $countActiveStudents; ?> students</p>

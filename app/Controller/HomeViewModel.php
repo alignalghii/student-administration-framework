@@ -35,7 +35,7 @@ class HomeViewModel
 		$studentIdsToDelete               = $request->checkboxIdsIn('delete_student');
 		$namePattern                      = $request->FormFieldValue('search_student_by_name', '');
 		$namePattern                      = trim($namePattern);
-		$queryString                      = $request->queryString();
+		$postUriWithQueryString           = $request->uriWithQueryString('/');
 
 		$studentSearchResult = JoinedRepository::search($namePattern, $groupIdsForSearch, $includeAlsoGrouplessStudents);
 
@@ -51,7 +51,8 @@ class HomeViewModel
 			'studentsWithTheirGroupListForEach', 'countFoundStudents',
 			'studyGroups',                       'countStudyGroups',
 			'countActiveStudents',
-			'namePattern', 'groupIdsForSearch', 'includeAlsoGrouplessStudents'
+			'namePattern', 'groupIdsForSearch', 'includeAlsoGrouplessStudents',
+			'postUriWithQueryString'
 		);
 	}
 
