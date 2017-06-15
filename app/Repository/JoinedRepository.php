@@ -35,13 +35,9 @@ class JoinedRepository
 	public static function search($namePattern, $groupIds, $includeAlsoGrouplessStudents)
 	{
 		$gId_is_in_groupIds = Builder::IN("`g`.`id`", $groupIds);     // `g`.`id` IN (...) -- also protects $groupIds against SQL-injection
-		$conditions    = $includeAlsoGrouplessStudents ? "(`g`.`id` IS NULL OR $gId_is_in_groupIds)"
-		                                               : $gId_is_in_groupIds;
-		$typedBindings = [];
-		if (!TextUtil::isBlank($namePattern)) {
-			$conditions .= " AND `s`.`name` LIKE :namePattern";
-			$typedBindings[':namePattern'] = [$namePattern, \PDO::PARAM_STR];
-		}
+		$groupCondition     = $includeAlsoGrouplessStudents ? "(`g`.`id` IS NULL OR $gId_is_in_groupIds)"
+		                                                    : $gId_is_in_groupIds;
+		$typedBindings = [':namePattern' => ["%$namePattern%", \PDO::PARAM_STR]];
 		$sql = "
 				SELECT
 					`s`.`id` AS `id`,
@@ -59,7 +55,9 @@ class JoinedRepository
 						ON `sg`.`student_id` = `s`.`id`
 					LEFT JOIN `study_group` AS `g`
 						ON `g`.`id` = `sg`.`study_group_id`
-				WHERE $conditions
+				WHERE
+					`s`.`name` LIKE :namePattern AND
+					$groupCondition
 				GROUP BY `s`.`id`
 		";
 

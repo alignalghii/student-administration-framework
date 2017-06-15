@@ -7,7 +7,7 @@ ob_start();
 		<p><?php echo $countAllStudents; ?> registered</p>
 		<form method="GET" action="/">
 			Search for name
-			<input type="text" name="search_student_by_name" value="<?php echo $namePattern; ?>"/>
+			<input type="text" name="search_student_by_name" value="<?php echo $namePattern; ?>" placeholder="Anyone"/>
 			<p>Filters for study groups</p>
 			<input type="checkbox" name="include_also_groupless_students"<?php if ($includeAlsoGrouplessStudents): ?> checked<?php endif; ?>/>
 			Include also students belonging to none of the study groups
