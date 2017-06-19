@@ -12,4 +12,4 @@ ob_start();
 		</ul>
 <?php
 $content = ob_get_clean();
-require 'app/View/base.php';
+require '../app/View/base.php';

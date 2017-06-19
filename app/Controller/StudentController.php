@@ -12,7 +12,7 @@ class StudentController extends Controller
 	public function index()
 	{
 		$students = StudentRepository::findAll();
-		require 'app/View/Student/index.php';
+		require '../app/View/Student/index.php';
 	}
 
 	/**
@@ -27,7 +27,7 @@ class StudentController extends Controller
 		$title   = $isNew ? 'New student'                     : "Student #$id";
 		$action  = $isNew ? '/student/new'                    : "/student/$id"; // POST in form submit action, GET in reset action
 		$student = $isNew ? StudentForm::blankMissingFields() : StudentRepository::find($id);
-		require 'app/View/Student/show.php';
+		require '../app/View/Student/show.php';
 	}
 
 	/** @todo: algebraic datatype `Maybe` */
@@ -41,7 +41,7 @@ class StudentController extends Controller
 				$isNew   = false;
 				$title   = "Student #$id";
 				$action  = "/student/$id"; // POST in form submit action, GET in reset action
-				require "app/View/Student/show.php";
+				require "../app/View/Student/show.php";
 			},
 			$id // Just $id
 		);
@@ -57,7 +57,7 @@ class StudentController extends Controller
 				$isNew   = true;
 				$title   = "New student";
 				$action  = "/student/new"; // POST in form submit action, GET in reset action
-				require "app/View/Student/show.php";
+				require "../app/View/Student/show.php";
 			}
 		);
 	}

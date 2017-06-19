@@ -12,7 +12,7 @@ class StudyGroupController extends Controller
 	public function index()
 	{
 		$studyGroups = StudyGroupRepository::findAll();
-		require 'app/View/StudyGroup/index.php';
+		require '../app/View/StudyGroup/index.php';
 	}
 
 	/** @todo: algebraic datatype `Maybe` */
@@ -24,7 +24,7 @@ class StudyGroupController extends Controller
 		$title   = $isNew ? 'New study group'                     : "Study group #$id";
 		$action  = $isNew ? '/study_group/new'                    : "/study_group/$id"; // POST in form submit action, GET in reset action
 		$studyGroup = $isNew ? StudyGroupForm::blankMissingFields() : StudyGroupRepository::find($id);
-		require 'app/View/StudyGroup/show.php';
+		require '../app/View/StudyGroup/show.php';
 	}
 
 	/** @todo: algebraic datatype `Maybe` */
@@ -38,7 +38,7 @@ class StudyGroupController extends Controller
 				$isNew   = false;
 				$title   = "Study group #$id";
 				$action  = "/study_group/$id"; // POST in form submit action, GET in reset action
-				require "app/View/StudyGroup/show.php";
+				require "../app/View/StudyGroup/show.php";
 			},
 			$id // Just $id
 		);
@@ -54,7 +54,7 @@ class StudyGroupController extends Controller
 				$isNew   = true;
 				$title   = "New study group";
 				$action  = "/study_group/new"; // POST in form submit action, GET in reset action
-				require "app/View/StudyGroup/show.php";
+				require "../app/View/StudyGroup/show.php";
 			}
 		);
 	}

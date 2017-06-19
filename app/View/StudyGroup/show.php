@@ -26,4 +26,4 @@ ob_start();
 		<?php if (!$isNew): ?><form method="POST" action="/study_group/<?php echo $id; ?>/delete"><input type="submit" value="Delete"/></form><?php endif; ?>
 <?php
 $content = ob_get_clean();
-require 'app/View/base.php';
+require '../app/View/base.php';

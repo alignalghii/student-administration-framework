@@ -13,7 +13,7 @@ class HomeController extends Controller
 		$viewVars = $viewModel->getViewVars();
 		extract($viewVars);
 		// $studentsWithTheirGroupListForEach, $countStudents, $countActiveStudents, $studyGroups, $countStudyGroups
-		require 'app/View/Home/index.php';
+		require '../app/View/Home/index.php';
 
 	}
 
@@ -26,6 +26,6 @@ class HomeController extends Controller
 		$viewModel = new HomeViewModel(false, $_GET + $_POST); // true: GET, false: POST
 		$viewVars = $viewModel->getViewVars();
 		extract($viewVars);
-		require 'app/View/Home/index.php';
+		require '../app/View/Home/index.php';
 	}
 }

@@ -12,7 +12,7 @@ class StudentStudyGroupMembershipController extends Controller
 	public function index()
 	{
 		$studentStudyGroupMemberships = StudentStudyGroupMembershipRepository::findAll();
-		require 'app/View/StudentStudyGroupMembership/index.php';
+		require '../app/View/StudentStudyGroupMembership/index.php';
 	}
 
 	/** @todo: algebraic datatype `Maybe` */
@@ -24,7 +24,7 @@ class StudentStudyGroupMembershipController extends Controller
 		$title   = $isNew ? 'New membership between students and study groups'  : "Membership #$id between students and study groups";
 		$action  = $isNew ? '/student_study_group_membership/new'               : "/student_study_group_membership/$id"; // POST in form submit action, GET in reset action
 		$studentStudyGroupMembership = $isNew ? StudentStudyGroupMembershipForm::blankMissingFields() : StudentStudyGroupMembershipRepository::find($id);
-		require 'app/View/StudentStudyGroupMembership/show.php';
+		require '../app/View/StudentStudyGroupMembership/show.php';
 	}
 
 	/** @todo: algebraic datatype `Maybe` */
@@ -38,7 +38,7 @@ class StudentStudyGroupMembershipController extends Controller
 				$isNew   = false;
 				$title   = "Membership #$id between students and study groups";
 				$action  = "/student_study_group_membership/$id"; // POST in form submit action, GET in reset action
-				require "app/View/StudentStudyGroupMembership/show.php";
+				require "../app/View/StudentStudyGroupMembership/show.php";
 			},
 			$id // Just $id
 		);
@@ -54,7 +54,7 @@ class StudentStudyGroupMembershipController extends Controller
 				$isNew   = true;
 				$title   = "New membership between students and study groups";
 				$action  = "/student_study_group_membership/new"; // POST in form submit action, GET in reset action
-				require "app/View/StudentStudyGroupMembership/show.php";
+				require "../app/View/StudentStudyGroupMembership/show.php";
 			}
 		);
 	}

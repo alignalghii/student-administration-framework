@@ -1,6 +1,6 @@
 <?php
 
-require 'autoload.php';
+require '../autoload.php';
 
 use Controller\HomeController;
 use Controller\StudentController;
